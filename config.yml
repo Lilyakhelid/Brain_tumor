@@ -16,9 +16,9 @@ environnement:
 données:
   training: "data/Training - Images d'entraînement"
   testing: "data/Testing - Images de test"
-  taille_image: 
-    largeur: 128  # a modifier
-    hauteur: 128  
+  image: 
+    size: 128  # à modifier
+
 
 notebooks:
   - "notebooks/data_exploration.ipynb - Exploration des données"
@@ -36,3 +36,4 @@ src:
 fichiers:
   - ".gitignore - Fichiers à ignorer"
   - "requirements.txt - Liste des dépendances Python"
+
