@@ -1,0 +1,15 @@
+numpy
+pandas
+opencv-python
+Pillow
+scikit-image
+matplotlib
+tensorflow
+torch
+torchvision
+keras
+albumentations
+imageio
+seaborn
+scipy
+tqdm

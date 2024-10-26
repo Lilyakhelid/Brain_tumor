@@ -1,0 +1,9 @@
+# Ignorer l'environnement virtuel
+venv/
+
+# Ignorer les fichiers de cache Python
+__pycache__/
+*.py[cod]
+
+# Ignorer le Dataset
+data/
