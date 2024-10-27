@@ -5,8 +5,8 @@ venv/
 __pycache__/
 *.py[cod]
 
-# Ignorer le Dataset
-data/
+# Ignorer le Dataset, #peut etre l'embarquer...
+data/ 
 
 # Ignorer le brouillon
 
