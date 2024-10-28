@@ -1,5 +1,5 @@
 #Ce module sert a découvrir le CNN avec une application utilisant les données cifar (classique)
-
+#erivan
 import tensorflow as tf
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.models import Sequential
