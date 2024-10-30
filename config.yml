@@ -17,7 +17,7 @@ données:
   training: "data/Training - Images d'entraînement"
   testing: "data/Testing - Images de test"
   image: 
-    size: 128  # à modifier
+    size: 258  # à modifier
 
 
 notebooks:
