@@ -68,6 +68,47 @@ explanations = explainer.explain(X, Y)
 for i in range(len(X)):
     plt.subplot(1, len(X), i + 1)
     plt.imshow(X[i])  # Afficher l'image d'origine
+ #   plt.imshow(explanations[i], cmap="jet", alpha=0.5)  # Superposer l'attribution
+    plt.axis('off')
+plt.show()
+for i in range(len(X)):
+    plt.subplot(1, len(X), i + 1)
+    plt.imshow(X[i])  # Afficher l'image d'origine
     plt.imshow(explanations[i], cmap="jet", alpha=0.5)  # Superposer l'attribution
     plt.axis('off')
 plt.show()
+
+
+
+
+
+# %%
+import streamlit as st
+# %%
+# nullll
+# Définir les classes CIFAR-10
+class_names = ["Avion", "Automobile", "Oiseau", "Chat", "Cerf", "Chien", "Grenouille", "Cheval", "Bateau", "Camion"]
+
+# Partie Streamlit pour créer l'application de classification
+st.title("Classification d'images CIFAR-10")
+
+# Téléchargement de l'image
+uploaded_file = st.file_uploader("Téléchargez une image CIFAR-10", type=["jpg", "png", "jpeg"])
+
+if uploaded_file is not None:
+    # Prétraitement de l'image téléchargée
+    image = Image.open(uploaded_file)
+    image = image.resize((32, 32))  # Redimensionner l'image à la taille 32x32
+    img_array = np.array(image) / 255.0  # Normaliser les valeurs de pixels
+    img_array = np.expand_dims(img_array, axis=0)  # Ajouter une dimension pour le batch
+
+    # Prédiction de la classe
+    prediction = model.predict(img_array)
+    predicted_class = np.argmax(prediction, axis=1)[0]
+    confidence = np.max(prediction)
+
+    # Afficher les résultats
+    st.image(image, caption="Image téléchargée", use_column_width=True)
+    st.write(f"Classe prédite : {class_names[predicted_class]}")
+    st.write(f"Confiance de la prédiction : {confidence * 100:.2f}%")
+# %%
