@@ -1,10 +1,9 @@
-
 #Ce module sert a découvrir le CNN avec une application utilisant les données cifar (classique)
 #ici on apprend a load un model sauvegardé
 # %%
 import tensorflow as tf
 from tensorflow.keras.datasets import cifar10
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.optimizers import Adam
@@ -12,84 +11,65 @@ from xplique.attributions import GradCAM
 import tensorflow.keras.applications as app
 import matplotlib.pyplot as plt
 from datetime import datetime
-from tensorflow.keras.models import load_model
+import numpy as np
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import os
+import streamlit as st
+from PIL import Image
 
 
+class_names = {
+    0: "Avion",
+    1: "Automobile",
+    2: "Oiseau",
+    3: "Chat",
+    4: "Cerf",
+    5: "Chien",
+    6: "Grenouille",
+    7: "Cheval",
+    8: "Bateau",
+    9: "Camion"
+}
 
-
-
-
-
-
-
-
-
-
-# %%
+# Définir le chemin vers le modèle sauvegardé
 base_dir = os.getcwd()
 save_dir = os.path.join(base_dir, 'sauvegardes_modeles')
-print(os.listdir(save_dir))
-model_to_load = 'modele_cifar10_20241101_163923.h5' #os.listdir(save_dir)[0]
-print(f"Chargement du modèle : {model_to_load}")
-# %%
+model_to_load = 'modele_cifar10_20241101_163923.h5' # Remplacez par le nom de votre modèle
 model_path = os.path.join(save_dir, model_to_load) 
+
+# Charger le modèle sauvegardé
 model = load_model(model_path)
 
-# %%
+# Fonction pour prédire la classe d'une image téléchargée
+def predict_image_class(image, model, target_size=(32, 32)):
+    # Redimensionner et prétraiter l'image
+    img = image.resize(target_size)
+    img_array = img_to_array(img)  # Convertir l'image en tableau numpy
+    img_array = np.expand_dims(img_array, axis=0)  # Ajouter une dimension pour le batch
+    img_array /= 255.0  # Normaliser les pixels entre 0 et 1
 
-model.summary()
+    # Prédire la classe
+    predictions = model.predict(img_array)
+    print(predictions)
+    predicted_class = np.argmax(predictions, axis=1)  # Trouver l'indice de la classe avec la probabilité la plus élevée
 
-# Évaluation du modèle
-test_loss, test_accuracy = model.evaluate(x_test, y_test)
-print(f'Précision sur les données de test : {test_accuracy:.2f}')
+    return class_names.get(predicted_class[0])  # Retourner la classe prédite
 
-print(f'Précision sur les données de test : {test_loss:.2f}')
+# Interface Streamlit
+st.title("Classification d'image avec un modèle CNN")
+st.write("Téléchargez une image pour prédire sa classe.")
 
+# Option de téléchargement de fichier
+uploaded_file = st.file_uploader("Choisissez une image...", type=["jpg", "jpeg", "png"])
 
+if uploaded_file is not None:
+    # Charger l'image téléchargée
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Image téléchargée", use_column_width=True)
+    st.write("Classification en cours...")
 
+    # Effectuer la prédiction
+    classe_predite = predict_image_class(image, model)
+    st.write(f"La classe prédite pour l'image est : {classe_predite}")
 
-
-
-
-# %%
-
-# Charger et préparer les données CIFAR-10
-(x_train, y_train), (x_test, y_test) = cifar10.load_data()
-
-# Normaliser les images (valeurs entre 0 et 1)
-x_train, x_test = x_train / 255.0, x_test / 255.0
-
-# Encoder les labels en catégories (one-hot encoding)
-y_train = to_categorical(y_train, 10)
-y_test = to_categorical(y_test, 10)
-
-# %%
-# Utiliser GradCAM pour visualiser les zones importantes pour les prédictions du modèle
-# Charger un sous-ensemble de données d'image pour tester l'explication GradCAM
-X = x_test[:5]  # Par exemple, prends les 5 premières images de test
-Y = y_test[:5]
-
-# Créer un explainer GradCAM pour ton modèle
-explainer = GradCAM(model) # boucler sur tout les diff explainer.
-
-# Générer les explications pour les images sélectionnées
-explanations = explainer.explain(X, Y)
-
-# Afficher les explications superposées sur les images d'origine
-for i in range(len(X)):
-    plt.subplot(1, len(X), i + 1)
-    plt.imshow(X[i])  # Afficher l'image d'origine
- #   plt.imshow(explanations[i], cmap="jet", alpha=0.5)  # Superposer l'attribution
-    plt.axis('off')
-plt.show()
-for i in range(len(X)):
-    plt.subplot(1, len(X), i + 1)
-    plt.imshow(X[i])  # Afficher l'image d'origine
-    plt.imshow(explanations[i], cmap="jet", alpha=0.5)  # Superposer l'attribution
-    plt.axis('off')
-plt.show()
-
-
-
-# %%
+#streamlit run CNN_cifar_saved.py
