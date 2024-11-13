@@ -16,6 +16,8 @@ environnement:
 données:
   training: "data/Training - Images d'entraînement"
   testing: "data/Testing - Images de test"
+  validation : 
+    training_sample : 0.2
   image: 
     size: 258  # à modifier
     normalize: true                

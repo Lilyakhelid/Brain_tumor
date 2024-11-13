@@ -45,6 +45,8 @@ def resize_and_rename_images_of_folder(folder,subfolder,size):
         image_resized = image.resize((size,size))
         output_path = os.path.join(resized, f'{subfolder}_{count}.jpg')
         image_resized.save(output_path)
+
+
        
 
 def load_and_preprocess_image(image,grayscale,normalize,standardize):
