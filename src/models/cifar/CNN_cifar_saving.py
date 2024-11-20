@@ -64,4 +64,3 @@ model_path = os.path.join(save_dir, f"modele_cifar10_{timestamp}.h5")
 # Sauvegarder le modèle
 model.save(model_path)
 print(f"Modèle sauvegardé dans : {model_path}")
-#hello

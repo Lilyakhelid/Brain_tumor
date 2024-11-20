@@ -19,29 +19,23 @@ from PIL import Image
 
 
 class_names = {
-    0: "Avion",
-    1: "Automobile",
-    2: "Oiseau",
-    3: "Chat",
-    4: "Cerf",
-    5: "Chien",
-    6: "Grenouille",
-    7: "Cheval",
-    8: "Bateau",
-    9: "Camion"
+    0: "Gliome",
+    1: "Méningiome",
+    2: "Pas de tumeur",
+    3: "Pituiary",
 }
 
-# Définir le chemin vers le modèle sauvegardé
+# Chemin du modèle
 base_dir = os.getcwd()
 save_dir = os.path.join(base_dir, 'sauvegardes_modeles')
-model_to_load = 'modele_cifar10_20241101_163923.h5' # Remplacez par le nom de votre modèle
-model_path = os.path.join(save_dir, model_to_load) 
+model_to_load = 'modele_brain_tumor_20241117_205951.h5'  # Remplace par le nom correct de ton modèle
+model_path = os.path.join(save_dir, model_to_load)
 
 # Charger le modèle sauvegardé
 model = load_model(model_path)
 
 # Fonction pour prédire la classe d'une image téléchargée
-def predict_image_class(image, model, target_size=(32, 32)):
+def predict_image_class(image, model, target_size=(256, 256)):
     # Redimensionner et prétraiter l'image
     img = image.resize(target_size)
     img_array = img_to_array(img)  # Convertir l'image en tableau numpy
@@ -64,7 +58,7 @@ uploaded_file = st.file_uploader("Choisissez une image...", type=["jpg", "jpeg",
 
 if uploaded_file is not None:
     # Charger l'image téléchargée
-    image = Image.open(uploaded_file)
+    image = Image.open(uploaded_file).convert('L')
     st.image(image, caption="Image téléchargée", use_column_width=True)
     st.write("Classification en cours...")
 
@@ -72,11 +66,4 @@ if uploaded_file is not None:
     classe_predite = predict_image_class(image, model)
     st.write(f"La classe prédite pour l'image est : {classe_predite}")
 
-#streamlit run CNN_cifar_saved.py
-
-
-
-
-
-
-
+# streamlit run CNN_brain_tumor_saved.py

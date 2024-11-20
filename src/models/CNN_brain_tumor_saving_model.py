@@ -1,13 +1,13 @@
 
 # Ici, récupérer le prétraitement qui a été fait, puis mettre en place le modèle simplement et l'enregistrer.
 # Essayer de bien nommer le modèle avec les hyperparamètres et faire ce script le plus réutilisable possible pour pouvoir l'utiliser plusieurs fois et créer un benchmark.
-
+#ici modifier les params
 # %%
 import os
 import numpy as np
 from PIL import Image
 import tensorflow as tf
-from module_for_preprocessing import *  # fonctions de prétraitement
+from module_for_preprocessing import *
 from tensorflow.keras import layers, models
 import yaml
 from datetime import datetime  # Nécessaire pour générer un timestamp unique
@@ -31,7 +31,7 @@ x_test, y_test = load_images_with_preprocessing(testing, size)
 # %%
 
 model = models.Sequential([
-    layers.Input(shape=(256, 256, 3)),
+    layers.Input(shape=(256, 256, 1)), #(256, 256, 3) si on veut en RGB et penser a mettre grayscale en false dans yaml
 
     # Bloc 1
     layers.Conv2D(32, (3, 3), activation='relu'),
@@ -57,15 +57,15 @@ model = models.Sequential([
 
 
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-
-
+#optimizer adopt
+# %%
 model.summary()
 
 
 history = model.fit(
     x_train, y_train,
     batch_size=32,
-    epochs=10,
+    epochs=6,
     validation_data=(x_val, y_val)
 )
 
