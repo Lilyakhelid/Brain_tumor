@@ -51,7 +51,7 @@ model = models.Sequential([
     layers.Flatten(),
     layers.Dense(64, activation='relu'),
     layers.Dropout(0.2),  # Pour éviter le surapprentissage
-    layers.Dense(4, activation='softmax')
+    layers.Dense(4, activation='softmax') #car sortie multiclass. linear pour regression, sigmoid pour binaire, softmax pour classes >2
 
 ])
 

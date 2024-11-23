@@ -13,3 +13,5 @@ data/
 *.txt
 
 
+src/models/sauvegardes_modeles/
+

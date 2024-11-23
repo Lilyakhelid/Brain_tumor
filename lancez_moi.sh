@@ -1,10 +1,10 @@
 #!/bin/bash
 
 
-#python -m venv venv
+#python -m venv venvtest
 
 source venv/bin/activate
-
+#source venvtest/bin/activate
 #pip install -r requirements.txt
 
 cd results

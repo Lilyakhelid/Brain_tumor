@@ -1,13 +1,11 @@
-#Ce module sert a découvrir le CNN avec une application utilisant les données cifar (classique)
-#ici on apprend a load un model sauvegardé
-# %%
+
+
 import tensorflow as tf
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.optimizers import Adam
-from xplique.attributions import GradCAM
 import tensorflow.keras.applications as app
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -16,23 +14,28 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import os
 import streamlit as st
 from PIL import Image
-
-
+# Définir les noms des classes
 class_names = {
     0: "Gliome",
     1: "Méningiome",
     2: "Pas de tumeur",
-    3: "Pituiary",
+    3: "Pituitary",
 }
 
-# Chemin du modèle
-base_dir = os.getcwd()
-save_dir = os.path.join(base_dir, 'sauvegardes_modeles')
-model_to_load = 'modele_brain_tumor_20241117_205951.h5'  # Remplace par le nom correct de ton modèle
-model_path = os.path.join(save_dir, model_to_load)
-
 # Charger le modèle sauvegardé
-model = load_model(model_path)
+@st.cache_resource
+def load_cnn_model():
+    base_dir = os.getcwd()
+    save_dir = os.path.join(base_dir, 'sauvegardes_modeles')
+    model_to_load = 'modele_brain_tumor_20241117_205951.h5'
+    model_path = os.path.abspath(os.path.join(save_dir, model_to_load))
+
+    model = load_model(model_path)
+    st.write(f"Modèle chargé : {model_path}")
+    st.write(f"Dimensions d'entrée attendues : {model.input_shape}")
+    return model
+
+model = load_cnn_model()
 
 # Fonction pour prédire la classe d'une image téléchargée
 def predict_image_class(image, model, target_size=(256, 256)):
@@ -66,4 +69,4 @@ if uploaded_file is not None:
     classe_predite = predict_image_class(image, model)
     st.write(f"La classe prédite pour l'image est : {classe_predite}")
 
-# streamlit run CNN_brain_tumor_saved.py
+#streamlit run CNN_brain_tumor_saved.py
