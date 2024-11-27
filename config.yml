@@ -13,14 +13,16 @@ environnement:
     - pillow
     - albumentations
 
-données:
+donnees:
   training: "data/Training - Images d'entraînement"
   testing: "data/Testing - Images de test"
+  validation : 
+    training_sample : 0.2
   image: 
-    size: 258  # à modifier
+    size: 256  # à modifier
     normalize: true                
     standardize: true               
-    grayscale: false                
+    grayscale: true                
 
 # Paramètres d'augmentation 
 augmentation:
