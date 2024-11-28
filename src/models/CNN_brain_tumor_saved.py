@@ -1,7 +1,6 @@
 
 
 import tensorflow as tf
-from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.utils import to_categorical
@@ -70,3 +69,4 @@ if uploaded_file is not None:
     st.write(f"La classe prédite pour l'image est : {classe_predite}")
 
 #streamlit run CNN_brain_tumor_saved.py
+#image(15).jpg testing meningiome
