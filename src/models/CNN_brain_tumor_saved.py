@@ -1,5 +1,3 @@
-
-
 import tensorflow as tf
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
@@ -13,6 +11,7 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import os
 import streamlit as st
 from PIL import Image
+
 # Définir les noms des classes
 class_names = {
     0: "Gliome",
@@ -21,12 +20,13 @@ class_names = {
     3: "Pituitary",
 }
 
+
 # Charger le modèle sauvegardé
 @st.cache_resource
 def load_cnn_model():
     base_dir = os.getcwd()
-    save_dir = os.path.join(base_dir, 'sauvegardes_modeles')
-    model_to_load = 'modele_brain_tumor_20241117_205951.h5'
+    save_dir = os.path.join(base_dir, "sauvegardes_modeles")
+    model_to_load = "modele_brain_tumor_20241117_205951.h5"
     model_path = os.path.abspath(os.path.join(save_dir, model_to_load))
 
     model = load_model(model_path)
@@ -34,7 +34,9 @@ def load_cnn_model():
     st.write(f"Dimensions d'entrée attendues : {model.input_shape}")
     return model
 
+
 model = load_cnn_model()
+
 
 # Fonction pour prédire la classe d'une image téléchargée
 def predict_image_class(image, model, target_size=(256, 256)):
@@ -47,9 +49,12 @@ def predict_image_class(image, model, target_size=(256, 256)):
     # Prédire la classe
     predictions = model.predict(img_array)
     print(predictions)
-    predicted_class = np.argmax(predictions, axis=1)  # Trouver l'indice de la classe avec la probabilité la plus élevée
+    predicted_class = np.argmax(
+        predictions, axis=1
+    )  # Trouver l'indice de la classe avec la probabilité la plus élevée
 
     return class_names.get(predicted_class[0])  # Retourner la classe prédite
+
 
 # Interface Streamlit
 st.title("Classification d'image avec un modèle CNN")
@@ -60,7 +65,7 @@ uploaded_file = st.file_uploader("Choisissez une image...", type=["jpg", "jpeg",
 
 if uploaded_file is not None:
     # Charger l'image téléchargée
-    image = Image.open(uploaded_file).convert('L')
+    image = Image.open(uploaded_file).convert("L")
     st.image(image, caption="Image téléchargée", use_column_width=True)
     st.write("Classification en cours...")
 
@@ -68,5 +73,5 @@ if uploaded_file is not None:
     classe_predite = predict_image_class(image, model)
     st.write(f"La classe prédite pour l'image est : {classe_predite}")
 
-#streamlit run CNN_brain_tumor_saved.py
-#image(15).jpg testing meningiome
+# streamlit run CNN_brain_tumor_saved.py
+# image(15).jpg testing meningiome

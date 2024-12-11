@@ -9,55 +9,57 @@ import yaml
 from datetime import datetime  # Nécessaire pour générer un timestamp unique
 
 # Charger la configuration
-with open('../../config.yml', 'r') as file:
+with open("../../config.yml", "r") as file:
     config = yaml.safe_load(file)
-size = config['données']['image']['size']
+size = config["données"]["image"]["size"]
 
 # Chargement des datasets
-training = os.path.join(os.path.abspath(os.path.join(os.getcwd(), "../..")), "data", "Training")
-validation = os.path.join(os.path.abspath(os.path.join(os.getcwd(), "../..")), "data", "Validation")
-testing = os.path.join(os.path.abspath(os.path.join(os.getcwd(), "../..")), "data", "Testing")
+training = os.path.join(
+    os.path.abspath(os.path.join(os.getcwd(), "../..")), "data", "Training"
+)
+validation = os.path.join(
+    os.path.abspath(os.path.join(os.getcwd(), "../..")), "data", "Validation"
+)
+testing = os.path.join(
+    os.path.abspath(os.path.join(os.getcwd(), "../..")), "data", "Testing"
+)
 
 x_train, y_train = load_images_with_preprocessing(training, size)
 x_val, y_val = load_images_with_preprocessing(validation, size)
 x_test, y_test = load_images_with_preprocessing(testing, size)
 
 # Définir le modèle CNN
-model = models.Sequential([
-    layers.Input(shape=(256, 256, 1)),  # (256, 256, 3) si on veut RGB
+model = models.Sequential(
+    [
+        layers.Input(shape=(256, 256, 1)),  # (256, 256, 3) si on veut RGB
+        # Bloc 1
+        layers.Conv2D(32, (3, 3), activation="sigmoid"),
+        # Bloc 2
+        layers.Conv2D(64, (3, 3), activation="sigmoid"),
+        layers.MaxPooling2D((2, 2)),
+        # Bloc 3
+        layers.Conv2D(128, (3, 3), activation="sigmoid"),
+        # Bloc 4
+        layers.Conv2D(128, (3, 3), activation="sigmoid"),
+        layers.MaxPooling2D((2, 2)),
+        # Couche Fully Connected
+        layers.Flatten(),
+        layers.Dense(64, activation="relu"),
+        layers.Dropout(0.2),  # Pour éviter le surapprentissage
+        layers.Dense(4, activation="softmax"),  # Multiclass classification
+    ]
+)
 
-    # Bloc 1
-    layers.Conv2D(32, (3, 3), activation='relu'),
-
-    # Bloc 2
-    layers.Conv2D(64, (3, 3), activation='relu'),
-    layers.MaxPooling2D((2, 2)),
-
-    # Bloc 3
-    layers.Conv2D(128, (3, 3), activation='relu'),
-
-    # Bloc 4
-    layers.Conv2D(128, (3, 3), activation='relu'),
-    layers.MaxPooling2D((2, 2)),
-
-    # Couche Fully Connected
-    layers.Flatten(),
-    layers.Dense(64, activation='relu'),
-    layers.Dropout(0.2),  # Pour éviter le surapprentissage
-    layers.Dense(4, activation='softmax')  # Multiclass classification
-])
-
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.compile(
+    optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
+)
 
 # Résumé du modèle
 model.summary()
 
 # Entraînement
 history = model.fit(
-    x_train, y_train,
-    batch_size=32,
-    epochs=6,
-    validation_data=(x_val, y_val)
+    x_train, y_train, batch_size=32, epochs=6, validation_data=(x_val, y_val)
 )
 
 # Évaluation du modèle sur le jeu de test
@@ -65,8 +67,8 @@ test_loss, test_accuracy = model.evaluate(x_test, y_test)
 print(f"Test accuracy: {test_accuracy * 100:.2f}%")
 
 # Sauvegarder le modèle
-base_dir = os.getcwd()  
-save_dir = os.path.join(base_dir, 'sauvegardes_modeles')  
+base_dir = os.getcwd()
+save_dir = os.path.join(base_dir, "sauvegardes_modeles")
 os.makedirs(save_dir, exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -82,7 +84,7 @@ history_dict = {
         "val_loss": history.history["val_loss"],
         "val_accuracy": history.history["val_accuracy"],
         "test_loss": test_loss,
-        "test_accuracy": test_accuracy
+        "test_accuracy": test_accuracy,
     }
 }
 
