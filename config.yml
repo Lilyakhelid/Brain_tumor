@@ -19,10 +19,10 @@ données:
   validation : 
     training_sample : 0.2
   image: 
-    size: 256  # à modifier
+    size: 256 # à modifier
     normalize: true                
     standardize: true               
-    grayscale: true                
+    grayscale: true              
 
 # Paramètres d'augmentation 
 augmentation:

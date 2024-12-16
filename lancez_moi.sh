@@ -7,11 +7,17 @@ source venv/bin/activate
 #source venvtest/bin/activate
 #pip install -r requirements.txt
 
+cd Data_visualisation
+
+open Data_visualisation.html  #1
+
+cd ..
+
 cd results
 
-jupyter nbconvert --execute --to html metrics.ipynb && open metrics.html #un notebook avec les resultats a presenter
+open metrics.html  #2
 
-jupyter nbconvert --execute --to html explainability.ipynb && open explainability.html 
+open explainability.html #3
 
 cd ..
 
@@ -19,6 +25,6 @@ cd src
 
 cd models
 
-streamlit run CNN_brain_tumor_saved.py # a mettre en dernier. pour faire joue joue avce streamlit 
+streamlit run CNN_app.py #4
 
 #./lancez_moi.sh

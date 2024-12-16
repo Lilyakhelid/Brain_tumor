@@ -15,3 +15,6 @@ data/
 
 src/models/sauvegardes_modeles/
 
+src/models/detect.py
+
+
