@@ -1,43 +1,8 @@
-# Frameworks de machine learning et deep learning
-tensorflow==2.15.0              # Framework principal de deep learning
-scikit-learn==1.2.2             # Machine learning classique
-
-# Bibliothèques pour les fichiers et les structures de données
-numpy==1.24.4                   # Manipulation mathématique et tableaux multi-dimensionnels
-pandas==1.5.3                   # Manipulation et analyse de données tabulaires
-PyYAML==6.0.1                   # Lecture et écriture de fichiers YAML
-h5py==3.9.0                     # Manipulation de fichiers HDF5 (souvent pour TensorFlow)
-
-# Bibliothèques pour le traitement des images
-Pillow==9.4.0                   # Manipulation d'images (PIL)
-opencv-python-headless==4.7.0   # Traitement avancé d'images et vidéos
-
-# Visualisation des données
-matplotlib==3.7.1               # Création de graphiques statiques
-seaborn==0.12.2                 # Visualisation avancée basée sur matplotlib
-plotly==5.14.1                  # Graphiques interactifs
-
-# Bibliothèques pour l'évaluation de modèles
-scipy==1.10.1                   # Calculs mathématiques avancés
-statsmodels==0.14.0             # Modèles statistiques et tests
-joblib==1.3.2                   # Sérialisation et parallélisation (pour sklearn)
-
-# Interprétabilité et explications
-git+https://github.com/deel-ai/xplique.git  # Package Xplique pour l'explicabilité
-
-# Traitement de texte (si applicable dans ton projet)
-nltk==3.8.1                     # Traitement du langage naturel
-textblob==0.17.1                # Analyse textuelle simplifiée
-
-# Gestion des fichiers et opérations système
-os-sys==2.1.0                   # Gestion des fonctions système et des fichiers
-
-# Bibliothèques utiles pour la programmation et l'exécution
-tqdm==4.66.1                    # Barre de progression pour les boucles
-argparse==1.4.0                 # Gestion des arguments de la ligne de commande
-python-dotenv==1.0.0            # Gestion des fichiers .env pour les configurations
-
-# Backend pour les notebooks (si tu travailles avec Jupyter)
-notebook==7.1.2                 # Interface notebook
-jupyterlab==4.0.5               # Interface avancée Jupyter
-ipywidgets==8.1.0               # Widgets interactifs pour Jupyter
+numpy
+tensorflow==2.15.1
+streamlit
+pillow
+scikit-learn
+plotly
+pyyaml
+pandas

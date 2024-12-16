@@ -1,11 +1,11 @@
 #!/bin/bash
 
 
-#python -m venv venvtest
+python -m venv venv_brain_tumor
 
-source venv/bin/activate
-#source venvtest/bin/activate
-#pip install -r requirements.txt
+source venv_brain_tumor/bin/activate
+
+pip install -r requirements.txt
 
 cd Data_visualisation
 
